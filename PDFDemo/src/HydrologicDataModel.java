@@ -17,6 +17,7 @@ public class HydrologicDataModel {
 	private String peakInflow;
 	private String peakOutflow;
 	private String userDefinedValue;
+	private String min;
 	public String getHydrologicData() {
 		return hydrologicData == null ? "Hydrologic Data" : hydrologicData;
 	}
@@ -118,6 +119,12 @@ public class HydrologicDataModel {
 	}
 	public void setUserDefinedValue(String userDefinedValue) {
 		this.userDefinedValue = userDefinedValue;
+	}
+	public String getMin() {
+		return min == null ? "(min." : min;
+	}
+	public void setMin(String min) {
+		this.min = min;
 	}
 	
 }

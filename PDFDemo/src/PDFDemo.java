@@ -23,6 +23,7 @@ import com.itextpdf.layout.property.TextAlignment;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.apache.commons.lang3.StringUtils;
  
@@ -226,13 +227,15 @@ public class PDFDemo {
         
         StorageVolumesModel storageVolumesModel = new StorageVolumesModel();
         
+        BigDecimal testValue = new BigDecimal(123.3);
+        
         
         storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getElevation()).setTextAlignment(TextAlignment.CENTER)));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getArea()).setTextAlignment(TextAlignment.CENTER)));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getStorage()).setTextAlignment(TextAlignment.CENTER)));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getInlet())));
-        storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
+        storageVolumesTable.addCell(new Cell().add(new Paragraph(String.format("%.2f", testValue))));
         storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
         storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getAuxSpillway())));
@@ -265,7 +268,7 @@ public class PDFDemo {
         document.add(new Paragraph(""));
         
         //Adding rcn determination table
-        float [] rcnDeterminationColumnWidths = {150F, 150F, 150F, 150F, 150F};   
+        float [] rcnDeterminationColumnWidths = {150F, 150F, 150F, 150F, 150F, 150F};   
         Table rcnDeterminationTable = new Table(rcnDeterminationColumnWidths); 
         rcnDeterminationTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
         
@@ -278,6 +281,7 @@ public class PDFDemo {
         RcnDeterminationModel rcnDeterminationModel = new RcnDeterminationModel();
 
         rcnDeterminationTable.addCell(new Cell(1, 1).add(new Paragraph(rcnDeterminationModel.getRunoffCurveNumberDetermination()).setTextAlignment(TextAlignment.CENTER)));
+        rcnDeterminationTable.addCell(new Cell(2, 1).add(new Paragraph("")));
         rcnDeterminationTable.addCell(new Cell(1, 4).add(new Paragraph(rcnDeterminationModel.getAcresandCurvenumbers()).setTextAlignment(TextAlignment.CENTER)));
         rcnDeterminationTable.addCell(new Cell(1, 1).add(new Paragraph(rcnDeterminationModel.getCoverDescription()).setTextAlignment(TextAlignment.CENTER)));
         rcnDeterminationTable.addCell(new Cell(1, 1).add(new Paragraph(rcnDeterminationModel.getA()).setTextAlignment(TextAlignment.CENTER)));
@@ -298,60 +302,87 @@ public class PDFDemo {
         
         document.add(new Paragraph(""));
         
-        float[] hydrologicTableColumnWidths = {100F, 100F, 100F, 100F, 100F, 100F};
+        float[] hydrologicTableColumnWidths = {150F, 10F, 90F, 150F, 10F, 90F};
         Table hydrologicTable = new Table(hydrologicTableColumnWidths);
         hydrologicTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
         
+        Paragraph hydrologicModel = new Paragraph("HYDROLOGIC MODEL");
+        hydrologicModel.setTextAlignment(TextAlignment.CENTER);
+        hydrologicModel.setBold();
+        document.add(hydrologicModel);
+        
+        
         HydrologicDataModel hydrologicDataModel = new HydrologicDataModel();
         
-        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getRainfallDistributionType())));
-        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getDrainageArea())));
-        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getRunoffCurveNumber())));
-        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getConcentrationTime())));
-        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getWatershedSlope())));
-        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getFlowLength())));
-        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
-        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
-        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
-        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
-        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
-        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getRainfallDistributionType())));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getDrainageArea())));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph(":")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getWatershedSlope()).setTextAlignment(TextAlignment.CENTER)));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getRunoffCurveNumber())));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getFlowLength()).setTextAlignment(TextAlignment.CENTER)));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getConcentrationTime())));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph(":")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getMin()).setTextAlignment(TextAlignment.RIGHT)));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph(":")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0)")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
 
-        document.add(hydrologicTable);
+        document.add(hydrologicTable);                
         
-        document.add(new Paragraph(""));
-        document.add(new Paragraph(""));
-        document.add(new Paragraph(""));
-
-        
-        
-        float[] hydrologicBottomTableColumnWidths = {150F, 150F, 150F};
+        float[] hydrologicBottomTableColumnWidths = {170F, 165F, 165F};
         Table hydrologicBottomTable = new Table(hydrologicBottomTableColumnWidths);
-        hydrologicBottomTable.setHorizontalAlignment(HorizontalAlignment.LEFT);
+        hydrologicBottomTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
         
         
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")));
         hydrologicBottomTable.addCell(new Cell(1, 2).add(new Paragraph(hydrologicDataModel.getSpillway()).setTextAlignment(TextAlignment.CENTER)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")).setBorder(Border.NO_BORDER));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPrincipal()).setTextAlignment(TextAlignment.LEFT)).setBorderLeft(Border.NO_BORDER));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getAuxiliary()).setTextAlignment(TextAlignment.LEFT)));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPrincipal()).setTextAlignment(TextAlignment.CENTER)).setBorderLeft(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getAuxiliary()).setTextAlignment(TextAlignment.CENTER)));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getDesignFrequency()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getRainfallIn()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPeakInflow()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPeakOutflow()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorderTop(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorderLeft(Border.NO_BORDER));
         
         
         document.add(hydrologicBottomTable);
         
         document.add(new Paragraph(""));
+        
+        float[] hydrologicFooterTableColumnWidths = {20F, 150F};
+        Table hydrologicFooterTable = new Table(hydrologicFooterTableColumnWidths);
+        hydrologicFooterTable.setHorizontalAlignment(HorizontalAlignment.LEFT);
+        
+        hydrologicFooterTable.addCell(new Cell(1, 1).add(new Paragraph("")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicFooterTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getUserDefinedValue())).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+
+        document.add(hydrologicFooterTable);
         
         PrincipalSpillwayModel principalSpillwayModel = new PrincipalSpillwayModel();
         
