@@ -21,6 +21,10 @@ public class PrincipalSpillwayModel {
 	private String invertElevation;
 	private String drawdownTimeInfo;
 	private String exceedsMaxValue;
+    private String principalSpillwayElev;
+	private String inlet;
+	private String outlet;
+	private String channel;
 
 	public String getPrincipalSpillwayTrials() {
 		return principalSpillwayTrials == null ? "PRINCIPAL SPILLWAY TRIALS" : principalSpillwayTrials;
@@ -201,6 +205,30 @@ public class PrincipalSpillwayModel {
 	}
 	public void setExceedsMaxValue(String exceedsMaxValue) {
 		this.exceedsMaxValue = exceedsMaxValue;
+	}
+        public String getPrincipalSpillwayElev() {
+		return principalSpillwayElev == null ? "Principal Spillway Elevs." : principalSpillwayElev;
+	}
+	public void setPrincipalSpillwayElev(String principalSpillwayElev) {
+		this.principalSpillwayElev = principalSpillwayElev;
+	}
+	public String getInlet() {
+		return inlet == null ? "INLET" : inlet;
+	}
+	public void setInlet(String inlet) {
+		this.inlet = inlet;
+	}
+	public String getOutlet() {
+		return outlet == null ? "OUTLET" : outlet;
+	}
+	public void setOutlet(String inletElevation) {
+		this.outlet = outlet;
+	}
+	public String getChannel() {
+		return channel == null ? "CHANNEL" : channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
 	}
 	private String auxiliaryElevation;
 	private String storage;
