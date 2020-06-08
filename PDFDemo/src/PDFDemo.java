@@ -9,8 +9,6 @@
 /*
  * This example is part of the iText 7 tutorial.
  */ 
-import com.itextpdf.kernel.colors.Color;
-import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -23,7 +21,6 @@ import com.itextpdf.layout.property.TextAlignment;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.apache.commons.lang3.StringUtils;
  
@@ -227,15 +224,13 @@ public class PDFDemo {
         
         StorageVolumesModel storageVolumesModel = new StorageVolumesModel();
         
-        BigDecimal testValue = new BigDecimal(123.3);
-        
         
         storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getElevation()).setTextAlignment(TextAlignment.CENTER)));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getArea()).setTextAlignment(TextAlignment.CENTER)));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getStorage()).setTextAlignment(TextAlignment.CENTER)));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getInlet())));
-        storageVolumesTable.addCell(new Cell().add(new Paragraph(String.format("%.2f", testValue))));
+        storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
         storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
         storageVolumesTable.addCell(new Cell().add(new Paragraph("")));
         storageVolumesTable.addCell(new Cell().add(new Paragraph(storageVolumesModel.getAuxSpillway())));
@@ -268,7 +263,7 @@ public class PDFDemo {
         document.add(new Paragraph(""));
         
         //Adding rcn determination table
-        float [] rcnDeterminationColumnWidths = {150F, 150F, 150F, 150F, 150F, 150F};   
+        float [] rcnDeterminationColumnWidths = {150F, 150F, 150F, 150F, 150F};   
         Table rcnDeterminationTable = new Table(rcnDeterminationColumnWidths); 
         rcnDeterminationTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
         
@@ -281,7 +276,6 @@ public class PDFDemo {
         RcnDeterminationModel rcnDeterminationModel = new RcnDeterminationModel();
 
         rcnDeterminationTable.addCell(new Cell(1, 1).add(new Paragraph(rcnDeterminationModel.getRunoffCurveNumberDetermination()).setTextAlignment(TextAlignment.CENTER)));
-        rcnDeterminationTable.addCell(new Cell(2, 1).add(new Paragraph("")));
         rcnDeterminationTable.addCell(new Cell(1, 4).add(new Paragraph(rcnDeterminationModel.getAcresandCurvenumbers()).setTextAlignment(TextAlignment.CENTER)));
         rcnDeterminationTable.addCell(new Cell(1, 1).add(new Paragraph(rcnDeterminationModel.getCoverDescription()).setTextAlignment(TextAlignment.CENTER)));
         rcnDeterminationTable.addCell(new Cell(1, 1).add(new Paragraph(rcnDeterminationModel.getA()).setTextAlignment(TextAlignment.CENTER)));
@@ -302,87 +296,60 @@ public class PDFDemo {
         
         document.add(new Paragraph(""));
         
-        float[] hydrologicTableColumnWidths = {150F, 10F, 90F, 150F, 10F, 90F};
+        float[] hydrologicTableColumnWidths = {100F, 100F, 100F, 100F, 100F, 100F};
         Table hydrologicTable = new Table(hydrologicTableColumnWidths);
         hydrologicTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
         
-        Paragraph hydrologicModel = new Paragraph("HYDROLOGIC MODEL");
-        hydrologicModel.setTextAlignment(TextAlignment.CENTER);
-        hydrologicModel.setBold();
-        document.add(hydrologicModel);
-        
-        
         HydrologicDataModel hydrologicDataModel = new HydrologicDataModel();
         
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getRainfallDistributionType())));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getDrainageArea())));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph(":")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getWatershedSlope()).setTextAlignment(TextAlignment.CENTER)));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getRunoffCurveNumber())));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getFlowLength()).setTextAlignment(TextAlignment.CENTER)));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).setBorderRight(Border.NO_BORDER).add(new Paragraph(":")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getConcentrationTime())));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph(":")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0")).setTextAlignment(TextAlignment.RIGHT));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph(hydrologicDataModel.getMin()).setTextAlignment(TextAlignment.RIGHT)));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph(":")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("0)")).setTextAlignment(TextAlignment.LEFT));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderRight(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
-        hydrologicTable.addCell(new Cell().setBorderLeft(Border.NO_BORDER).add(new Paragraph("")));
+        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getRainfallDistributionType())));
+        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getDrainageArea())));
+        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getRunoffCurveNumber())));
+        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getConcentrationTime())));
+        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getWatershedSlope())));
+        hydrologicTable.addCell(new Cell().add(new Paragraph(hydrologicDataModel.getFlowLength())));
+        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
+        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
+        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
+        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
+        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
+        hydrologicTable.addCell(new Cell().add(new Paragraph("0")));
 
-        document.add(hydrologicTable);                
+        document.add(hydrologicTable);
         
-        float[] hydrologicBottomTableColumnWidths = {170F, 165F, 165F};
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+
+        
+        
+        float[] hydrologicBottomTableColumnWidths = {150F, 150F, 150F};
         Table hydrologicBottomTable = new Table(hydrologicBottomTableColumnWidths);
-        hydrologicBottomTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        hydrologicBottomTable.setHorizontalAlignment(HorizontalAlignment.LEFT);
         
         
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")).setBorder(Border.NO_BORDER));
         hydrologicBottomTable.addCell(new Cell(1, 2).add(new Paragraph(hydrologicDataModel.getSpillway()).setTextAlignment(TextAlignment.CENTER)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPrincipal()).setTextAlignment(TextAlignment.CENTER)).setBorderLeft(Border.NO_BORDER));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getAuxiliary()).setTextAlignment(TextAlignment.CENTER)));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("")).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPrincipal()).setTextAlignment(TextAlignment.LEFT)).setBorderLeft(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getAuxiliary()).setTextAlignment(TextAlignment.LEFT)));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getDesignFrequency()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getRainfallIn()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPeakInflow()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
         hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getPeakOutflow()).setTextAlignment(TextAlignment.LEFT)));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT));
-        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorderLeft(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        hydrologicBottomTable.addCell(new Cell(1, 1).add(new Paragraph("1")).setTextAlignment(TextAlignment.LEFT).setBorderTop(Border.NO_BORDER).setBorderLeft(Border.NO_BORDER));
         
         
         document.add(hydrologicBottomTable);
         
         document.add(new Paragraph(""));
-        
-        float[] hydrologicFooterTableColumnWidths = {20F, 150F};
-        Table hydrologicFooterTable = new Table(hydrologicFooterTableColumnWidths);
-        hydrologicFooterTable.setHorizontalAlignment(HorizontalAlignment.LEFT);
-        
-        hydrologicFooterTable.addCell(new Cell(1, 1).add(new Paragraph("")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-        hydrologicFooterTable.addCell(new Cell(1, 1).add(new Paragraph(hydrologicDataModel.getUserDefinedValue())).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-
-        document.add(hydrologicFooterTable);
         
         PrincipalSpillwayModel principalSpillwayModel = new PrincipalSpillwayModel();
         
@@ -666,7 +633,326 @@ public class PDFDemo {
                                                 
         document.add(embankmentCrosssectionLowerTable);
         
+        document.add(new Paragraph(""));
         
+        ConduitModel conduitModel = new ConduitModel();
+        
+        document.add(new Paragraph("")); 
+        document.add(new Paragraph(conduitModel.getConduitDetail()).setTextAlignment(TextAlignment.CENTER));
+       
+        
+        float[] conduitDetailTableColumnWidths = {300F};
+        Table conduitDetailUpperTable = new Table(conduitDetailTableColumnWidths);
+        conduitDetailUpperTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getInletType())));
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getConduitType())));
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getDiameter())));
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getInletExtention())));
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getLength())));
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getPipeLength())));
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getSlope())));
+        conduitDetailUpperTable.addCell(new Cell().add(new Paragraph(conduitModel.getMaxFill())));
+                
+        document.add(conduitDetailUpperTable);
+        
+        Table conduitDetailLowerTable = new Table(conduitDetailTableColumnWidths);
+        conduitDetailLowerTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        conduitDetailLowerTable.addCell(new Cell().add(new Paragraph(conduitModel.getHorizonatalDistance())));
+        conduitDetailLowerTable.addCell(new Cell().add(new Paragraph(conduitModel.getUpStream()).setTextAlignment(TextAlignment.CENTER)));
+        conduitDetailLowerTable.addCell(new Cell().add(new Paragraph(conduitModel.getDownStream()).setTextAlignment(TextAlignment.CENTER)));
+                         
+        document.add(conduitDetailLowerTable);
+        
+        document.add(new Paragraph(""));
+        
+        SummaryModel summaryModel = new SummaryModel();
+        
+        document.add(new Paragraph("")); 
+        document.add(new Paragraph(summaryModel.getSummary()).setTextAlignment(TextAlignment.CENTER));
+        
+        float[] summaryTopTableColumnWidths = {225F, 225F};
+        Table summarytopTable = new Table(summaryTopTableColumnWidths);
+        summarytopTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        summarytopTable.addCell(new Cell(1, 1).add(new Paragraph(summaryModel.getInletType())).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        summarytopTable.addCell(new Cell(1, 1).add(new Paragraph(summaryModel.getInletElevation())).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+        
+        document.add(summarytopTable);
+        
+        float[] summaryTableColumnWidths = {300F};
+        Table summaryUpperTable = new Table(summaryTableColumnWidths);
+        summaryUpperTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        
+        summaryUpperTable.addCell(new Cell().add(new Paragraph(summaryModel.getConduit())));
+        summaryUpperTable.addCell(new Cell().add(new Paragraph(summaryModel.getRiser())));
+        summaryUpperTable.addCell(new Cell().add(new Paragraph(summaryModel.getAux())));
+        
+                
+        document.add(summaryUpperTable);
+        
+        Table summaryLowerTable = new Table(summaryTableColumnWidths);
+        summaryLowerTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        summaryLowerTable.addCell(new Cell().add(new Paragraph(summaryModel.getEffectiveHeight())));
+        summaryLowerTable.addCell(new Cell().add(new Paragraph(summaryModel.getStorageHeight())));
+        summaryLowerTable.addCell(new Cell().add(new Paragraph(summaryModel.getOverallHeight())));
+       
+        document.add(summaryLowerTable);
+        
+        document.add(new Paragraph(""));
+        
+        EarthworkModel earthworkModel = new EarthworkModel();
+        
+        document.add(new Paragraph("")); 
+        document.add(new Paragraph(earthworkModel.getEarthWorkVolumes()).setTextAlignment(TextAlignment.CENTER));
+        
+        float[] earthworkTableColumnWidths = {150F, 100F, 100F};
+        Table earthworkTable = new Table(earthworkTableColumnWidths);
+        earthworkTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        earthworkTable.addCell(new Cell().add(new Paragraph(earthworkModel.getEarthWorkQuantities())));
+        earthworkTable.addCell(new Cell().add(new Paragraph(earthworkModel.getConstructed())));
+        earthworkTable.addCell(new Cell().add(new Paragraph(earthworkModel.getSettled())));
+                   
+        document.add(earthworkTable);
+        
+        document.add(new Paragraph(""));
+        
+        ProjectDefaultsModel projectDefaultsModel = new ProjectDefaultsModel();
+        
+        document.add(new Paragraph("")); 
+        document.add(new Paragraph(projectDefaultsModel.getProjectDefaults()).setTextAlignment(TextAlignment.CENTER));
+        
+        float[] projectDefaultsTableColumnWidths = {300F};
+        Table projectDefaultsTable = new Table(projectDefaultsTableColumnWidths);
+        projectDefaultsTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getDesign())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getBermsSettled())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getAuxSpillway())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getFreeboard())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getMinBottomWidth())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getMaxBottomWidth())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getInlet())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getStorage())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getMinFlow())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getOrificeCoeff())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getPipeFlow())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getStageRequired())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getDrainageArea())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getPrincipalRouting())));
+        projectDefaultsTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getAuxRouting())));
+                   
+                   
+        document.add(projectDefaultsTable);
+        
+        document.add(new Paragraph(""));
+        document.add(new Paragraph(""));
+               
+        float[] projectTableColumnWidths = {150F, 100F, 100F};
+        Table projectTable = new Table(projectTableColumnWidths);
+        projectTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getProject())));
+        projectTable.addCell(new Cell().add(new Paragraph("")));
+        projectTable.addCell(new Cell().add(new Paragraph("")));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getPreparedFor())));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getTWP())));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getRNG())));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getPreparedBy())));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getSEC())));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getFLD())));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getCheckedBy())));
+        projectTable.addCell(new Cell().add(new Paragraph(projectDefaultsModel.getDate())));
+        projectTable.addCell(new Cell().add(new Paragraph("")));
+        
+        document.add(projectTable);
+        
+        document.add(new Paragraph(""));
+        
+        ConstructionCheckoutModel constructionCheckoutModel = new ConstructionCheckoutModel();
+        
+        document.add(new Paragraph("")); 
+        document.add(new Paragraph(constructionCheckoutModel.getConstructionCheckout()).setTextAlignment(TextAlignment.CENTER));
+        document.add(new Paragraph("TBM # : Elev.  +  B.S.  =   H.I.    TBM Description").setTextAlignment(TextAlignment.CENTER));
+        document.add(new Paragraph("TBM # : Elev.  +  B.S.  =   H.I.    TBM Description").setTextAlignment(TextAlignment.CENTER));
+        
+        float[] constructionCheckoutTableColumnWidths = {300F};
+        Table constructionCheckoutTopTable = new Table(constructionCheckoutTableColumnWidths);
+        constructionCheckoutTopTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        constructionCheckoutTopTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph(constructionCheckoutModel.getCenterlineProfile()).setTextAlignment(TextAlignment.CENTER)));
+        
+        document.add(constructionCheckoutTopTable);
+        
+        float[] constructionCheckoutUpperTableColumnWidths = {30F, 30F, 30F, 30F, 30F,30F, 30F, 30F, 30F, 30F};
+        Table constructionCheckoutUpperTable = new Table(constructionCheckoutUpperTableColumnWidths);
+        constructionCheckoutUpperTable.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getSTA())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getRdg())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getConstructionElevation())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getPlanElevation())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getDev())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getSTA())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getRdg())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getConstructionElevation())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getPlanElevation())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph(constructionCheckoutModel.getDev())));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph(constructionCheckoutModel.getEmbankmentProfile())));
+        constructionCheckoutUpperTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph(constructionCheckoutModel.getEmbankmentProfile())));
+        constructionCheckoutUpperTable.addCell(new Cell().setBorder(Border.NO_BORDER).add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        constructionCheckoutUpperTable.addCell(new Cell().add(new Paragraph("")));
+        
+        document.add(constructionCheckoutUpperTable);
+        
+        document.add(new Paragraph("\\1 Planned elevations for top of dam are based on   0 % settlement.").setTextAlignment(TextAlignment.CENTER));
+        
+        document.add(new Paragraph(""));
+
+        document.add(new Paragraph(principalSpillwayModel.getPrincipalSpillwayElev()).setTextAlignment(TextAlignment.CENTER));
+       
+        float[] principalSpillwayElevTableColumnWidths = {60F, 60F, 60F, 60F, 60F};
+        Table principalSpillwayElevTable = new Table(principalSpillwayElevTableColumnWidths);
+        principalSpillwayElevTable.setHorizontalAlignment(HorizontalAlignment.CENTER);  
+        
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph(principalSpillwayModel.getInlet())));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph(principalSpillwayModel.getOutlet())));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph(principalSpillwayModel.getChannel())));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        principalSpillwayElevTable.addCell(new Cell().add(new Paragraph("")));
+        
+        document.add(principalSpillwayElevTable);
+
         //Close document
         document.close();
     }
